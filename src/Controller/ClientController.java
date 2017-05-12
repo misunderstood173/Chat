@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.ClientModel;
+import Model.IClientModelThreadFactory;
 import View.IClientView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class ClientController {
         this.clientView.addDisconnectListener(new DisconnectListener());
         this.clientView.addSendListener(new SendListener());
         
-        this.clientModel.setMessageReceivedListener(new MessageReceivedListener());
+        this.clientModel.setMessageReceivedListener(new MessageReceivedListenerFactory());
     }
     
     public void start() {
@@ -83,6 +84,16 @@ public class ClientController {
         
     }
     
+    class MessageReceivedListenerFactory implements IClientModelThreadFactory
+    {
+
+        @Override
+        public Thread create() {
+            return new MessageReceivedListener();
+        }
+        
+    }
+    
     class MessageReceivedListener extends Thread
     {
 
@@ -92,14 +103,14 @@ public class ClientController {
                 String msg;
                 while((msg = clientModel.Read()) != null)
                 {
-                    
-                    //if(msg != null)
+                    if(!msg.isEmpty())
                         clientView.WriteLine(msg);
                 }
             }catch (IOException e) {
                 clientView.WriteLine("Can't get message from server");
-            }     
+            }
             System.out.println("thread ended");
         }
     }
+    
 }
