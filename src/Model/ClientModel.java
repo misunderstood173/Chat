@@ -69,7 +69,7 @@ public class ClientModel {
     public void Disconnect() throws IOException
     {
         if(client == null) return;
-        client.Send("end");
+        client.Send("#!/end!#/");
         client.Close();
     }                                          
 }

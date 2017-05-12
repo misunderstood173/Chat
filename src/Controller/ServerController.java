@@ -116,7 +116,7 @@ public class ServerController {
                 String msg;
                 while((msg = client.Receive()) != null)
                 {
-                    if ("end".equalsIgnoreCase(msg)){
+                    if ("#!/end!#/".equalsIgnoreCase(msg)){
                         msg = client.getUsername() + " has disconnected";
                         serverView.WriteLine(msg);
                         serverModel.SendToAllExceptClient(client, msg);
