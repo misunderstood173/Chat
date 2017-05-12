@@ -6,6 +6,7 @@
 package View;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -13,6 +14,11 @@ import javax.swing.text.DefaultCaret;
  * @author 224-2
  */
 public class ServerView extends javax.swing.JFrame implements IServerView{
+
+    @Override
+    public void addInputKeyListener(KeyListener inputKeyListener) {
+        editInput.addKeyListener(inputKeyListener);
+    }
 
     @Override
     public String getUserInput() {

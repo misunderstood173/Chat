@@ -11,6 +11,8 @@ import Model.ServerModel;
 import View.IServerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -28,6 +30,7 @@ public class ServerController {
         
         this.serverView.addConnectListener(new ConnectListener());
         this.serverView.addSendListener(new SendListener());
+        this.serverView.addInputKeyListener(new InputKeyListener());
         this.serverModel.setWaitingForClientThread(new WaitingForClient());
         this.serverModel.setClientMessageListenerFactory(new ClientMessageListenerFactory());
     }
@@ -58,12 +61,38 @@ public class ServerController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            String message = serverView.getUserInput();
-            if(message.isEmpty()) return;
-            serverModel.Send("*Admin:  " + message);
-            serverView.WriteLine("*Admin:  " + message);
+            Send();
         }
         
+    }
+    
+    class InputKeyListener implements KeyListener
+    {
+
+        @Override
+        public void keyTyped(KeyEvent ke) {
+            
+        }
+
+        @Override
+        public void keyPressed(KeyEvent ke) {
+            if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+                Send();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent ke) {
+            
+        }
+        
+    }
+    
+    void Send()
+    {
+        String message = serverView.getUserInput();
+        if(message.isEmpty()) return;
+        serverModel.Send("*Admin:  " + message);
+        serverView.WriteLine("*Admin:  " + message);
     }
     
     class WaitingForClient extends Thread

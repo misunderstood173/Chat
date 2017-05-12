@@ -10,6 +10,8 @@ import Model.IClientModelThreadFactory;
 import View.IClientView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -29,12 +31,21 @@ public class ClientController {
         this.clientView.addConnectListener(new ConnectListener());
         this.clientView.addDisconnectListener(new DisconnectListener());
         this.clientView.addSendListener(new SendListener());
+        this.clientView.addInputKeyListener(new InputKeyListener());
         
         this.clientModel.setMessageReceivedListenerFactory(new MessageReceivedListenerFactory());
     }
     
     public void start() {
         clientView.start();
+    }
+    
+    void Send()
+    {
+        String message = clientView.getUserInput();
+        if(message.isEmpty()) return;
+        clientModel.Send(message);
+        clientView.WriteLine(clientModel.getUsername() + ": " + message);
     }
     
     
@@ -76,10 +87,28 @@ public class ClientController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            String message = clientView.getUserInput();
-            if(message.isEmpty()) return;
-            clientModel.Send(message);
-            clientView.WriteLine(clientModel.getUsername() + ": " + message);
+            Send();
+        }
+        
+    }
+    
+    class InputKeyListener implements KeyListener
+    {
+
+        @Override
+        public void keyTyped(KeyEvent ke) {
+            
+        }
+
+        @Override
+        public void keyPressed(KeyEvent ke) {
+            if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+                Send();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent ke) {
+            
         }
         
     }

@@ -19,46 +19,18 @@ import java.util.logging.Logger;
  *
  * @author Acer
  */
-public class ClientConsoleView implements IClientView, KeyListener {
+public class ClientConsoleView implements IClientView {
+
+    @Override
+    public void addInputKeyListener(KeyListener inputKeyListener) {
+        
+    }
     
     ActionListener connect;
     ActionListener disconnect;
     ActionListener send;
     BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     String lastInput;
-            
-    @Override
-    public void keyTyped(KeyEvent ke) {
-        
-    }
-
-    @Override
-    public void keyPressed(KeyEvent ke) {
-        int id = ke.getKeyCode();
-
-        if (id == KeyEvent.VK_ESCAPE)
-        {
-            disconnect.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
-            System.out.println("Disconnected");
-        }
-
-        if ((id == KeyEvent.VK_C) && ((ke.getModifiers() & KeyEvent.CTRL_MASK) != 0))
-        {
-            connect.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
-            System.out.println("Connected to server");
-        }
-        
-        if (id == KeyEvent.VK_ENTER)
-        {
-            send.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
-            System.out.println("sent");
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
-        
-    }
 
     @Override
     public String getHost() {

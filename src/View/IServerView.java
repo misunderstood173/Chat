@@ -6,6 +6,7 @@
 package View;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -16,5 +17,6 @@ public interface IServerView {
     public void addSendListener(ActionListener listenForSend);
     public void addConnectListener(ActionListener listenForConnect);
     public void WriteLine(String str);
+    public void addInputKeyListener(KeyListener inputKeyListener);
     public void start();
 }

@@ -7,6 +7,7 @@
 package View;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -14,6 +15,11 @@ import javax.swing.text.DefaultCaret;
  * @author Acer
  */
 public class ClientView extends javax.swing.JFrame implements IClientView {
+
+    @Override
+    public void addInputKeyListener(KeyListener inputKeyListener) {
+        editInput.addKeyListener(inputKeyListener);
+    }
 
     @Override
     public String getHost() {
