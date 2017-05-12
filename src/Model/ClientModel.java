@@ -17,7 +17,7 @@ public class ClientModel {
     static Client client;
     String username;
     int port = 4444;
-    IClientModelThreadFactory messageReceivedListener;
+    IClientModelThreadFactory messageReceivedListenerFactory;
     
     public void setPort(int port)
     {
@@ -34,9 +34,9 @@ public class ClientModel {
         return client.isOpen();
     }
     
-    public void setMessageReceivedListener(IClientModelThreadFactory messageReceivedListener)
+    public void setMessageReceivedListenerFactory(IClientModelThreadFactory messageReceivedListenerFactory)
     {
-        this.messageReceivedListener = messageReceivedListener;
+        this.messageReceivedListenerFactory = messageReceivedListenerFactory;
     }
     
     public void Connect(String host, String username) throws UnknownHostException, IOException 
@@ -53,7 +53,7 @@ public class ClientModel {
         client = new Client(new Socket(host, port));
         client.Send(this.username);
         
-        messageReceivedListener.create().start();
+        messageReceivedListenerFactory.create().start();
     }                                          
 
     public void Send(String message) 

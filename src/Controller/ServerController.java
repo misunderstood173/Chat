@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Client;
+import Model.IServerModelThreadFactory;
 import Model.ServerModel;
 import View.IServerView;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,7 @@ public class ServerController {
         this.serverView.addConnectListener(new ConnectListener());
         this.serverView.addSendListener(new SendListener());
         this.serverModel.setWaitingForClientThread(new WaitingForClient());
+        this.serverModel.setClientMessageListenerFactory(new ClientMessageListenerFactory());
     }
     
     public void start()
@@ -73,13 +75,12 @@ public class ServerController {
             try {
                 while(true)
                 {
-                    System.out.println("clients length " + serverModel.clients.size());
                     Socket clientSocket = serverModel.NextConnection();
                     Client client = new Client(clientSocket);
 
                     String userName = client.Receive();
-                    serverModel.AddNewClient(client, new ClientMessageListener(client));
                     client.SetUsername(userName);
+                    serverModel.AddNewClient(client);
                     serverView.WriteLine(userName + " has connected");
                     
                     serverModel.SendToAllExceptClient(client, userName + " has connected");
@@ -89,6 +90,16 @@ public class ServerController {
                 serverView.WriteLine("Can't listen for new clients");
             }
         }
+    }
+    
+    class ClientMessageListenerFactory implements IServerModelThreadFactory
+    {
+
+        @Override
+        public Thread create(Client client) {
+            return new ClientMessageListener(client);
+        }
+        
     }
     
     class ClientMessageListener extends Thread
@@ -121,7 +132,7 @@ public class ServerController {
                 }
 
             } catch (IOException ex) {
-                serverView.WriteLine("Can't read from client");
+                serverView.WriteLine("Can't read from client " + client.getUsername());
             }
         }
         

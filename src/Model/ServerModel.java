@@ -16,14 +16,20 @@ import java.util.ArrayList;
  */
 public class ServerModel {
     ServerSocket server;
-    public  ArrayList<Client> clients = new ArrayList<Client>();
+    ArrayList<Client> clients = new ArrayList<Client>();
     int port = 4444;
     Thread waitingForClient;
+    IServerModelThreadFactory clientMessageListenerFactory;
     
     
     public void setWaitingForClientThread(Thread waitingForClient)
     {
         this.waitingForClient = waitingForClient;
+    }
+    
+    public void setClientMessageListenerFactory(IServerModelThreadFactory clientMessageListenerFactory)
+    {
+        this.clientMessageListenerFactory = clientMessageListenerFactory;
     }
     
     public void setPort(int port)
@@ -58,10 +64,10 @@ public class ServerModel {
         return server.accept();
     }
     
-    public void AddNewClient(Client client, Thread clientMessageListener) throws IOException
+    public void AddNewClient(Client client) throws IOException
     {
         clients.add(client);
-        clientMessageListener.start();
+        clientMessageListenerFactory.create(client).start();
     }
     
     public void RemoveClient(Client client) throws IOException

@@ -6,6 +6,7 @@
 package View;
 
 import java.awt.event.ActionListener;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -45,6 +46,8 @@ public class ServerView extends javax.swing.JFrame implements IServerView{
      */
     public ServerView() {
         initComponents();
+        DefaultCaret caret = (DefaultCaret)editBigText.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
 
     /**

@@ -30,7 +30,7 @@ public class ClientController {
         this.clientView.addDisconnectListener(new DisconnectListener());
         this.clientView.addSendListener(new SendListener());
         
-        this.clientModel.setMessageReceivedListener(new MessageReceivedListenerFactory());
+        this.clientModel.setMessageReceivedListenerFactory(new MessageReceivedListenerFactory());
     }
     
     public void start() {
@@ -109,7 +109,6 @@ public class ClientController {
             }catch (IOException e) {
                 clientView.WriteLine("Can't get message from server");
             }
-            System.out.println("thread ended");
         }
     }
     

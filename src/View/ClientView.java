@@ -7,6 +7,7 @@
 package View;
 
 import java.awt.event.ActionListener;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -60,6 +61,8 @@ public class ClientView extends javax.swing.JFrame implements IClientView {
     /** Creates new form ClientView */
     public ClientView() {
         initComponents();
+        DefaultCaret caret = (DefaultCaret)editBigText.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
 
     /** This method is called from within the constructor to
