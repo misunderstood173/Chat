@@ -17,7 +17,7 @@ public class ClientModel {
     static Client client;
     String username;
     int port = 4444;
-    Thread messageReceivedListener;
+    IClientModelThreadFactory messageReceivedListener;
     
     public void setPort(int port)
     {
@@ -34,7 +34,7 @@ public class ClientModel {
         return client.isOpen();
     }
     
-    public void setMessageReceivedListener(Thread messageReceivedListener)
+    public void setMessageReceivedListener(IClientModelThreadFactory messageReceivedListener)
     {
         this.messageReceivedListener = messageReceivedListener;
     }
@@ -52,8 +52,8 @@ public class ClientModel {
         
         client = new Client(new Socket(host, port));
         client.Send(this.username);
-        if(messageReceivedListener.getState() == Thread.State.NEW)
-            messageReceivedListener.start();
+        
+        messageReceivedListener.create().start();
     }                                          
 
     public void Send(String message) 

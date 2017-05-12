@@ -49,7 +49,7 @@ public class ServerModel {
     {  
         if(message.isEmpty()) return;
         for(Client c: clients)
-            if(client != c)
+            if(c != null && client != c)
                 c.Send(message);
     }  
     
