@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Client;
+import Model.IServerModel;
 import Model.IServerModelThreadFactory;
 import Model.ServerModel;
 import View.IServerView;
@@ -21,10 +22,10 @@ import java.net.Socket;
  * @author Acer
  */
 public class ServerController {
-    ServerModel serverModel;
+    IServerModel serverModel;
     IServerView serverView;
     
-    public ServerController(ServerModel serverModel, IServerView serverView) {
+    public ServerController(IServerModel serverModel, IServerView serverView) {
         this.serverModel = serverModel;
         this.serverView = serverView;
         
@@ -145,6 +146,10 @@ public class ServerController {
                 String msg;
                 while((msg = client.Receive()) != null)
                 {
+                    serverModel.didReceiveMessageFrom(msg, client);
+                    
+                    msg = serverModel.FilterMessage(msg);
+                    
                     if ("#!/end!#/".equalsIgnoreCase(msg)){
                         msg = client.getUsername() + " has disconnected";
                         serverView.WriteLine(msg);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author 224-2
  */
-public class ServerModel {
+public class ServerModel implements IServerModel{
     ServerSocket server;
     ArrayList<Client> clients = new ArrayList<Client>();
     int port = 4444;
@@ -22,21 +22,25 @@ public class ServerModel {
     IServerModelThreadFactory clientMessageListenerFactory;
     
     
+    @Override
     public void setWaitingForClientThread(Thread waitingForClient)
     {
         this.waitingForClient = waitingForClient;
     }
     
+    @Override
     public void setClientMessageListenerFactory(IServerModelThreadFactory clientMessageListenerFactory)
     {
         this.clientMessageListenerFactory = clientMessageListenerFactory;
     }
     
+    @Override
     public void setPort(int port)
     {
         this.port = port;
     }
     
+    @Override
     public void Connect() throws IOException
     {
         server = new ServerSocket(port);
@@ -44,6 +48,7 @@ public class ServerModel {
         waitingForClient.start();
     }
     
+    @Override
     public void Send(String message) 
     {  
         if(message.isEmpty()) return;
@@ -51,6 +56,7 @@ public class ServerModel {
             c.Send(message);
     }  
     
+    @Override
     public void SendToAllExceptClient(Client client, String message) 
     {  
         if(message.isEmpty()) return;
@@ -59,20 +65,35 @@ public class ServerModel {
                 c.Send(message);
     }  
     
+    @Override
     public Socket NextConnection() throws IOException
     {
         return server.accept();
     }
     
-    public void AddNewClient(Client client) throws IOException
+    @Override
+    public void AddNewClient(Client client)
     {
         clients.add(client);
         clientMessageListenerFactory.create(client).start();
     }
     
+    @Override
     public void RemoveClient(Client client) throws IOException
     {
         client.Close();
         clients.remove(client);
+    }
+    
+    @Override
+    public void didReceiveMessageFrom(String message, Client client)
+    {
+        
+    }
+    
+    @Override
+    public String FilterMessage(String message)
+    {
+        return message;
     }
 }
