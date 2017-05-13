@@ -22,12 +22,13 @@ public class ServerTriviaModel extends ServerModel {
     @Override
     public void didReceiveMessageFrom(String message, Client client) {
         if(client == null) return;
+        if(currentQuestion == null) return;
         
         String username = client.getUsername();
         String answear = currentQuestion.getAnswear();
         if(message.equalsIgnoreCase(answear))
         {
-            Send(username + " got it right! The answear was: " + answear);
+            Send(username + " got it right!\n The answear was: " + answear);
             new AskNextQuestion().start();
         }
     }
@@ -62,7 +63,9 @@ public class ServerTriviaModel extends ServerModel {
                 Send(question.getNextHint());
                 this.sleep(2500);
                 
+                if(question != currentQuestion) return;
                 Send("No one got it? The answear was: " + question.getAnswear() + "\nNext question comming...");
+                currentQuestion = null;
                 this.sleep(2500);
                 new AskNextQuestion().start();
                 
