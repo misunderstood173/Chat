@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import Model.ClientModel;
-import Model.IClientModelThreadFactory;
+import Model.ClientSide.ClientModel;
+import Model.ClientSide.IClientModelThreadFactory;
 import View.IClientView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

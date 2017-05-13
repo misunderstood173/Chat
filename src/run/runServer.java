@@ -6,7 +6,7 @@
 package run;
 
 import Controller.ServerController;
-import Model.ServerModel;
+import Model.ServerSide.ServerModel;
 import View.ServerView;
 
 /**

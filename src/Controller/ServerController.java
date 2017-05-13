@@ -6,9 +6,9 @@
 package Controller;
 
 import Model.Client;
-import Model.IServerModel;
-import Model.IServerModelThreadFactory;
-import Model.ServerModel;
+import Model.ServerSide.IServerModel;
+import Model.ServerSide.IServerModelThreadFactory;
+import Model.ServerSide.ServerModel;
 import View.IServerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.ServerSide;
 
+import Model.Client;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

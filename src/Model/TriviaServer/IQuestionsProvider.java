@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.TriviaServer;
 
 /**
  *
  * @author Acer
  */
-public interface IServerModelThreadFactory {
-    public Thread create(Client client);
+public interface IQuestionsProvider {
+    public String NextQuestion();
 }

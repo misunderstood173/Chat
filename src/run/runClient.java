@@ -6,7 +6,7 @@
 package run;
 
 import Controller.ClientController;
-import Model.ClientModel;
+import Model.ClientSide.ClientModel;
 import View.ClientConsoleView;
 import View.ClientView;
 
