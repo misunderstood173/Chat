@@ -10,5 +10,5 @@ package Model.TriviaServer;
  * @author Acer
  */
 public interface IQuestionsProvider {
-    public String NextQuestion();
+    public Question getNextQuestion();
 }

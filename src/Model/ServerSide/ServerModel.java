@@ -53,7 +53,9 @@ public class ServerModel implements IServerModel{
     public void Send(String message) 
     {  
         if(message.isEmpty()) return;
-        for(Client c: clients)
+        
+        ArrayList<Client> clientsCopy = (ArrayList<Client>) clients.clone();
+        for(Client c: clientsCopy)
             c.Send(message);
     }  
     
@@ -61,9 +63,11 @@ public class ServerModel implements IServerModel{
     public void SendToAllExceptClient(Client client, String message) 
     {  
         if(message.isEmpty()) return;
-        for(Client c: clients)
-            if(c != null && client != c)
-                c.Send(message);
+        
+        ArrayList<Client> clientsCopy = (ArrayList<Client>) clients.clone();
+        for(Client c: clientsCopy)
+            if(client != c)
+            c.Send(message);
     }  
     
     @Override

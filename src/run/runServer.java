@@ -7,6 +7,7 @@ package run;
 
 import Controller.ServerController;
 import Model.ServerSide.ServerModel;
+import Model.TriviaServer.ServerTriviaModel;
 import View.ServerView;
 
 /**
@@ -15,6 +16,6 @@ import View.ServerView;
  */
 public class runServer {
     public static void main(String[] args) {
-        new ServerController(new ServerModel(), new ServerView()).start();
+        new ServerController(new ServerTriviaModel(), new ServerView()).start();
     }
 }

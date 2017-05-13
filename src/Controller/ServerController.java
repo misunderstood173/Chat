@@ -8,7 +8,6 @@ package Controller;
 import Model.Client;
 import Model.ServerSide.IServerModel;
 import Model.ServerSide.IServerModelThreadFactory;
-import Model.ServerSide.ServerModel;
 import View.IServerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -146,23 +145,23 @@ public class ServerController {
                 String msg;
                 while((msg = client.Receive()) != null)
                 {
-                    serverModel.didReceiveMessageFrom(msg, client);
+                    String message = serverModel.FilterMessage(msg);
                     
-                    msg = serverModel.FilterMessage(msg);
-                    
-                    if ("#!/end!#/".equalsIgnoreCase(msg)){
-                        msg = client.getUsername() + " has disconnected";
-                        serverView.WriteLine(msg);
-                        serverModel.SendToAllExceptClient(client, msg);
+                    if ("#!/end!#/".equalsIgnoreCase(message)){
+                        message = client.getUsername() + " has disconnected";
+                        serverView.WriteLine(message);
+                        serverModel.SendToAllExceptClient(client, message);
                         
                         serverModel.RemoveClient(client);
                         break;
                     }
                     else 
-                        msg = client.getUsername() + ": " + msg;
+                        message = client.getUsername() + ": " + message;
                     
-                    serverView.WriteLine(msg);
-                    serverModel.SendToAllExceptClient(client, msg);
+                    serverView.WriteLine(message);
+                    serverModel.SendToAllExceptClient(client, message);
+                    
+                    serverModel.didReceiveMessageFrom(msg, client);
                 }
 
             } catch (IOException ex) {
